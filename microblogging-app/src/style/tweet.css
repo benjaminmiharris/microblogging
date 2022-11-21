@@ -1,0 +1,17 @@
+.tweet-container {
+  /* top: 205px; */
+  margin-top: 15px;
+}
+
+.tweet-card {
+  background-color: #343a40;
+  width: 600px;
+}
+
+.tweet-header {
+  color: #6c757d;
+}
+
+.tweet-message {
+  color: #ffffff;
+}
