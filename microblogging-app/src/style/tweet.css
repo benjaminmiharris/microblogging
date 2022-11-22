@@ -1,17 +1,22 @@
-.tweet-container {
-  /* top: 205px; */
-  margin-top: 15px;
-}
-
 .tweet-card {
   background-color: #343a40;
-  width: 600px;
+  border-radius: 6px;
+  position: relative;
 }
 
 .tweet-header {
   color: #6c757d;
+  margin-top: 18px;
 }
 
 .tweet-message {
   color: #ffffff;
+  text-align: left;
+  height: auto;
+}
+
+.form-control,
+textarea {
+  resize: none;
+  height: 100px;
 }

@@ -1,12 +1,32 @@
 .create-tweet-container {
-  width: 600px;
-  height: 180px;
-  margin-top: 30px;
+  position: relative;
   border: 2px solid #cccccc;
   border-radius: 6px;
+  padding: 5px;
+  height: 180px;
+  margin-bottom: 20px;
 }
 
 .create-tweet-button {
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+}
+
+.tweet-message {
+  height: 100px;
+}
+
+.form-control.note-text-input {
+  background-color: #15202b;
+  border-style: none;
+  color: #cccccc;
+}
+
+.alert.tweet-char-alert {
   position: relative;
-  bottom: 1px;
+  padding: 8px;
+  margin: 0px;
+  top: 12px;
+  width: 400px;
 }
