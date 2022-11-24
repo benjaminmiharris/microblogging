@@ -1,5 +1,7 @@
 import "../style/create-tweet.css";
 
+import { MAX_TWITTER_LENGTH } from "../constants";
+
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
@@ -7,8 +9,21 @@ import Alert from "react-bootstrap/Alert";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { useState } from "react";
 
 const CreateTweet = () => {
+  const [tweetMessage, setTweetMessage] = useState("");
+  const [tweetCharCount, setTweetCarCount] = useState(0);
+
+  const tweetMessageHandler = (e) => {
+    setTweetMessage(e.target.value);
+    showTweetMessageCharAlert();
+  };
+
+  const showTweetMessageCharAlert = () => {
+    setTweetCarCount(tweetMessage.length);
+  };
+
   return (
     <Row className="justify-content-center">
       <Col className="create-tweet-container" md="6">
@@ -17,18 +32,32 @@ const CreateTweet = () => {
             className="note-text-input"
             as="textarea"
             placeholder="What you have in mind..."
+            onChange={tweetMessageHandler}
           />
         </InputGroup>
-        <Alert className="tweet-char-alert" variant="danger">
-          The tweet can't contain more then 140 chars.
-        </Alert>
-        <Button
-          className="create-tweet-button "
-          variant="primary"
-          type="submit"
-        >
-          Tweet
-        </Button>
+        {tweetCharCount >= MAX_TWITTER_LENGTH ? (
+          <>
+            <Alert className="tweet-char-alert" variant="danger">
+              The tweet can't contain more then 140 chars.
+            </Alert>
+            <Button
+              disabled
+              className="create-tweet-button "
+              variant="primary"
+              type="submit"
+            >
+              Tweet
+            </Button>
+          </>
+        ) : (
+          <Button
+            className="create-tweet-button "
+            variant="primary"
+            type="submit"
+          >
+            Tweet
+          </Button>
+        )}
       </Col>
     </Row>
   );
