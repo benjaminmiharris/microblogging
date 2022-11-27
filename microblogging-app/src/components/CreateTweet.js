@@ -9,9 +9,10 @@ import Alert from "react-bootstrap/Alert";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+
 import { useState } from "react";
 
-const CreateTweet = () => {
+const CreateTweet = ({ onAdd }) => {
   const [tweetMessage, setTweetMessage] = useState("");
   const [tweetCharCount, setTweetCarCount] = useState(0);
 
@@ -24,11 +25,17 @@ const CreateTweet = () => {
     setTweetCarCount(tweetMessage.length);
   };
 
+  const sendTweetMessage = () => {
+    onAdd({ tweetMessage });
+    setTweetMessage("");
+  };
+
   return (
     <Row className="justify-content-center">
       <Col className="create-tweet-container" md="6">
         <InputGroup className="tweet-message">
           <Form.Control
+            value={tweetMessage}
             className="note-text-input"
             as="textarea"
             placeholder="What you have in mind..."
@@ -54,6 +61,10 @@ const CreateTweet = () => {
             className="create-tweet-button "
             variant="primary"
             type="submit"
+            onClick={(e) => {
+              e.preventDefault();
+              sendTweetMessage();
+            }}
           >
             Tweet
           </Button>
