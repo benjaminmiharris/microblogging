@@ -2,6 +2,8 @@ import "../style/create-tweet.css";
 
 import { MAX_TWITTER_LENGTH } from "../constants";
 
+import { postTweet } from "../helpers/POST_tweet";
+
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
@@ -26,7 +28,14 @@ const CreateTweet = ({ onAdd }) => {
   };
 
   const sendTweetMessage = () => {
-    onAdd({ tweetMessage });
+    const tweetObject = {
+      content: tweetMessage,
+      userName: "BMH",
+      date: new Date().toISOString(),
+    };
+    postTweet(tweetObject);
+    // console.log(tweetObject);
+    // // onAdd({ tweetMessage });
     setTweetMessage("");
   };
 
