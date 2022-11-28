@@ -1,9 +1,18 @@
 import Home from "./views/Home";
+import Profile from "./views/Profile";
+import Navbarstrip from "./components/Navbar";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <Home />
+      <nav>
+        <Navbarstrip />
+      </nav>
+      <Routes>
+        <Route path="/home" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
     </div>
   );
 }

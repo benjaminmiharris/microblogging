@@ -1,10 +1,11 @@
 .create-tweet-container {
+  top: 47px;
   position: relative;
   border: 2px solid #cccccc;
   border-radius: 6px;
   padding: 5px;
   height: 180px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .create-tweet-button {

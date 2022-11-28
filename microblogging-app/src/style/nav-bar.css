@@ -1,0 +1,11 @@
+.nav-bar-container {
+  width: 80vw;
+  left: 12%;
+  height: 58px;
+  background-color: rgba(52, 58, 64, 1);
+}
+
+li {
+  color: rgba(255, 255, 255, 1);
+  margin-left: 50px;
+}
