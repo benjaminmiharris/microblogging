@@ -11,12 +11,23 @@ import Alert from "react-bootstrap/Alert";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import * as localForage from "localforage";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CreateTweet = () => {
   const [tweetMessage, setTweetMessage] = useState("");
   const [tweetCharCount, setTweetCarCount] = useState(0);
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    getUsernameFromForage();
+  }, []);
+
+  const getUsernameFromForage = async () => {
+    const response = await localForage.getItem("current_user");
+    setUsername(response);
+  };
 
   const tweetMessageHandler = (e) => {
     setTweetMessage(e.target.value);
@@ -30,7 +41,7 @@ const CreateTweet = () => {
   const sendTweetMessage = () => {
     const tweetObject = {
       content: tweetMessage,
-      userName: "BMH",
+      userName: username,
       date: new Date().toISOString(),
     };
     postTweet(tweetObject);

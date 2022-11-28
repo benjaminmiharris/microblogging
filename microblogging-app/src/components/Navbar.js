@@ -10,10 +10,10 @@ const Navbarstrip = () => {
     <Navbar className="nav-bar-container">
       <Container md="8">
         <Nav>
-          <NavLink to="/home" activeClassName="current">
+          <NavLink to="/home">
             <li>Home</li>
           </NavLink>
-          <NavLink to="/profile" activeClassName="current">
+          <NavLink to="/profile">
             <li>Profile</li>
           </NavLink>
         </Nav>
