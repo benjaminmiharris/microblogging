@@ -9,6 +9,7 @@ function App() {
       <nav>
         <Navbarstrip />
       </nav>
+      //Test
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
