@@ -1,0 +1,31 @@
+.profile-title {
+  color: white;
+  margin-top: 52px;
+}
+
+.profile-form-label {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 26px;
+}
+
+.profile-form {
+  position: relative;
+}
+
+.form-control.profile-username-input {
+  height: 61px;
+
+  background-color: #15202b;
+  color: #cccccc;
+}
+
+.profile-save-button {
+  position: absolute;
+  right: 18px;
+  top: 130px;
+}

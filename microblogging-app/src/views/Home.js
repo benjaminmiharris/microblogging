@@ -12,6 +12,7 @@ import "../style/home.css";
 
 const Home = () => {
   const [tweets, setTweets] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const renderTweets = () => {
     const sortedTweets = sort(tweets).desc((u) => u.date);
@@ -31,20 +32,34 @@ const Home = () => {
   /////////////////API WORK///////////////////////
 
   const getTweets = async () => {
+    setIsLoading(true);
     const serverTweets = await getFromApi();
+    setIsLoading(false);
+
     return setTweets(serverTweets);
   };
 
   useEffect(() => {
     getTweets();
-  }, [tweets]);
+  }, []);
 
   ///////////////////////////////////////////////
 
   return (
     <Container className="app-container">
-      <CreateTweet />
-      <div>{tweets.length < 0 ? null : renderTweets()}</div>
+      <CreateTweet />;
+      <div>
+        {isLoading ? (
+          <HashLoader
+            className="loader"
+            color="#36d7b7"
+            size={100}
+            loading={isLoading}
+          />
+        ) : (
+          renderTweets()
+        )}
+      </div>
     </Container>
   );
 };

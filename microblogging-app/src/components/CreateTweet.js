@@ -14,7 +14,7 @@ import Col from "react-bootstrap/Col";
 
 import { useState } from "react";
 
-const CreateTweet = ({ onAdd }) => {
+const CreateTweet = () => {
   const [tweetMessage, setTweetMessage] = useState("");
   const [tweetCharCount, setTweetCarCount] = useState(0);
 
@@ -34,8 +34,6 @@ const CreateTweet = ({ onAdd }) => {
       date: new Date().toISOString(),
     };
     postTweet(tweetObject);
-    // console.log(tweetObject);
-    // // onAdd({ tweetMessage });
     setTweetMessage("");
   };
 
