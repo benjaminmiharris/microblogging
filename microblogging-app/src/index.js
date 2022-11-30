@@ -7,10 +7,17 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 
+import { UsernameContextProvider } from "./context/UsernameContext";
+import { TweetlistContextProvider } from "./context/TweetlistContext";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <App />
+    <UsernameContextProvider>
+      <TweetlistContextProvider>
+        <App />
+      </TweetlistContextProvider>
+    </UsernameContextProvider>
   </BrowserRouter>
 );
 

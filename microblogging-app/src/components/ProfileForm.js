@@ -4,25 +4,17 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 import "../style/profile-form.css";
-import { useEffect, useState } from "react";
-import * as localForage from "localforage";
+import { useContext, useState } from "react";
+import { UsernameContext } from "../context/UsernameContext";
 
 const ProfileForm = () => {
+  const { username, setUsername } = useContext(UsernameContext);
+
   const [usernameInput, setUsernameInput] = useState();
-  const [defaultUsername, setDefaultUsername] = useState();
 
   const saveUsername = () => {
-    localForage.setItem("current_user", usernameInput);
+    setUsername(usernameInput);
   };
-
-  const getUsernameFromForage = async () => {
-    const response = await localForage.getItem("current_user");
-    setDefaultUsername(response);
-  };
-
-  useEffect(() => {
-    getUsernameFromForage();
-  }, []);
 
   return (
     <div>
@@ -36,7 +28,7 @@ const ProfileForm = () => {
           <Form.Group controlId="formBasicEmail">
             <Form.Label className="profile-form-label">User Name</Form.Label>
             <Form.Control
-              defaultValue={defaultUsername}
+              defaultValue={username}
               className="profile-username-input"
               type="text"
               placeholder="Enter email"

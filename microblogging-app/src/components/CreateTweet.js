@@ -11,49 +11,49 @@ import Alert from "react-bootstrap/Alert";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import * as localForage from "localforage";
 
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+
+import { UsernameContext } from "../context/UsernameContext";
+import { TweetlistContext } from "../context/TweetlistContext";
+import { useState } from "react";
 
 const CreateTweet = () => {
-  const [tweetMessage, setTweetMessage] = useState("");
+  const { username } = useContext(UsernameContext);
+  const { tweetCreatedOn, tweetsArray, setTweetsArray } =
+    useContext(TweetlistContext);
+
+  const [tweet, setTweet] = useState();
+
   const [tweetCharCount, setTweetCarCount] = useState(0);
-  const [username, setUsername] = useState("");
-
-  useEffect(() => {
-    getUsernameFromForage();
-  }, []);
-
-  const getUsernameFromForage = async () => {
-    const response = await localForage.getItem("current_user");
-    setUsername(response);
-  };
 
   const tweetMessageHandler = (e) => {
-    setTweetMessage(e.target.value);
-    showTweetMessageCharAlert();
-  };
-
-  const showTweetMessageCharAlert = () => {
-    setTweetCarCount(tweetMessage.length);
+    setTweet(e.target.value);
+    setTweetCarCount(e.target.value.length);
   };
 
   const sendTweetMessage = () => {
     const tweetObject = {
-      content: tweetMessage,
+      id: tweetCreatedOn,
+      content: tweet,
       userName: username,
-      date: new Date().toISOString(),
+      date: tweetCreatedOn,
     };
     postTweet(tweetObject);
-    setTweetMessage("");
+    setTweet("");
+    setTweetsArray([...tweetsArray, tweetObject]);
   };
+
+  //update an array of tweets and store locally
+  //render this array
+  //auto setinterval server call
 
   return (
     <Row className="justify-content-center">
       <Col className="create-tweet-container" md="6">
         <InputGroup className="tweet-message">
           <Form.Control
-            value={tweetMessage}
+            value={tweet}
             className="note-text-input"
             as="textarea"
             placeholder="What you have in mind..."
