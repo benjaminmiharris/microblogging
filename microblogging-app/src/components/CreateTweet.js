@@ -20,7 +20,7 @@ import { useState } from "react";
 
 const CreateTweet = () => {
   const { username } = useContext(UsernameContext);
-  const { tweetCreatedOn, tweetsArray, setTweetsArray } =
+  const { tweetsArray, setTweetsArray, isLoading } =
     useContext(TweetlistContext);
 
   const [tweet, setTweet] = useState();
@@ -34,10 +34,9 @@ const CreateTweet = () => {
 
   const sendTweetMessage = () => {
     const tweetObject = {
-      id: tweetCreatedOn,
       content: tweet,
       userName: username,
-      date: tweetCreatedOn,
+      date: new Date().toISOString(),
     };
     postTweet(tweetObject);
     setTweet("");
@@ -60,6 +59,7 @@ const CreateTweet = () => {
             onChange={tweetMessageHandler}
           />
         </InputGroup>
+
         {tweetCharCount >= MAX_TWITTER_LENGTH ? (
           <>
             <Alert className="tweet-char-alert" variant="danger">
@@ -76,6 +76,7 @@ const CreateTweet = () => {
           </>
         ) : (
           <Button
+            disabled={isLoading}
             className="create-tweet-button "
             variant="primary"
             type="submit"

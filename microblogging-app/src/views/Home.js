@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 
 import CreateTweet from "../components/CreateTweet";
 import Container from "react-bootstrap/Container";
@@ -13,25 +13,26 @@ import { REFRESHRATE } from "../constants";
 import "../style/home.css";
 
 const Home = () => {
-  const { tweetsArray, setTweetsArray } = useContext(TweetlistContext);
+  const { tweetsArray, setTweetsArray, isLoading, setIsLoading } =
+    useContext(TweetlistContext);
 
-  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    const getTweets = async () => {
+      setIsLoading(true);
+      const serverTweets = await getFromApi();
+      setIsLoading(false);
+      return setTweetsArray(serverTweets);
+    };
 
-  const getTweets = async () => {
-    setIsLoading(true);
-    const serverTweets = await getFromApi();
-    setIsLoading(false);
-    return setTweetsArray(serverTweets);
-  };
+    getTweets();
+    const interval = setInterval(getTweets, REFRESHRATE);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     renderTweets();
   }, [tweetsArray]);
-
-  useEffect(() => {
-    getTweets();
-    setInterval(getTweets, REFRESHRATE);
-  }, []);
 
   const renderTweets = () => {
     const sortedTweets = sort(tweetsArray).desc((u) => u.date);
@@ -48,8 +49,8 @@ const Home = () => {
         {isLoading ? (
           <HashLoader
             className="loader"
-            color="#36d7b7"
-            size={100}
+            color="#0B6EFD"
+            size={80}
             loading={isLoading}
           />
         ) : (

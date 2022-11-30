@@ -31,7 +31,7 @@ const ProfileForm = () => {
               defaultValue={username}
               className="profile-username-input"
               type="text"
-              placeholder="Enter email"
+              placeholder="Enter username"
               onChange={(e) => setUsernameInput(e.target.value)}
             />
           </Form.Group>

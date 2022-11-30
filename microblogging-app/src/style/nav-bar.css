@@ -9,3 +9,8 @@ li {
   color: rgba(255, 255, 255, 1);
   margin-left: 50px;
 }
+
+li,
+.under {
+  text-decoration: underline rgba(52, 58, 64, 1);
+}
