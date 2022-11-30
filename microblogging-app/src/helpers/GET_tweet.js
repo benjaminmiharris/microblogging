@@ -9,5 +9,5 @@ export const getFromApi = async () => {
   } catch (e) {
     console.log("Error with the loading the tweets: ", e);
   }
-  getFromApi();
+  // getFromApi();
 };

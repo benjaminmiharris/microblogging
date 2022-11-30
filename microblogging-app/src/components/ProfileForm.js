@@ -4,8 +4,18 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 import "../style/profile-form.css";
+import { useContext, useState } from "react";
+import { UsernameContext } from "../context/UsernameContext";
 
 const ProfileForm = () => {
+  const { username, setUsername } = useContext(UsernameContext);
+
+  const [usernameInput, setUsernameInput] = useState();
+
+  const saveUsername = () => {
+    setUsername(usernameInput);
+  };
+
   return (
     <div>
       <Row className="justify-content-center">
@@ -18,15 +28,18 @@ const ProfileForm = () => {
           <Form.Group controlId="formBasicEmail">
             <Form.Label className="profile-form-label">User Name</Form.Label>
             <Form.Control
+              defaultValue={username}
               className="profile-username-input"
               type="text"
               placeholder="Enter email"
+              onChange={(e) => setUsernameInput(e.target.value)}
             />
           </Form.Group>
           <Button
             className="profile-save-button"
             variant="primary"
             type="submit"
+            onClick={saveUsername}
           >
             Save
           </Button>
