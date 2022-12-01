@@ -1,0 +1,17 @@
+.server-error {
+  color: white;
+  font-size: 10rem;
+  text-align: center;
+}
+
+.error-message {
+  color: white;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.home-button {
+  margin-top: 20px;
+  position: relative;
+  left: 46%;
+}

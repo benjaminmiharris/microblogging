@@ -7,13 +7,13 @@ import { NavLink } from "react-router-dom";
 
 const Navbarstrip = () => {
   return (
-    <Navbar className="nav-bar-container">
+    <Navbar className="nav-bar-container" variant="light">
       <Container md="8">
-        <Nav>
-          <NavLink to="/home">
+        <Nav className="me-auto">
+          <NavLink eventKey={1} to="/">
             <li>Home</li>
           </NavLink>
-          <NavLink to="/profile">
+          <NavLink eventKey={2} to="/profile">
             <li>Profile</li>
           </NavLink>
         </Nav>
