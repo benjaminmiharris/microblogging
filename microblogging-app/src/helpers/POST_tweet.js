@@ -8,7 +8,10 @@ export async function postTweet(tweetObject) {
     },
     body: JSON.stringify(tweetObject),
   });
-  if (response.status === 400) {
-    console.log("add a nav to 404 error");
+  if (response.ok) {
+    let ret = await response.json();
+    return ret;
+  } else {
+    return `HTTP error: ${response.status}`;
   }
 }

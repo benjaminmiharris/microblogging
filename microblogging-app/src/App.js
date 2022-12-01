@@ -1,5 +1,6 @@
 import Home from "./views/Home";
 import Profile from "./views/Profile";
+import Error from "./views/Error";
 import Navbarstrip from "./components/Navbar";
 import { Routes, Route } from "react-router-dom";
 
@@ -10,8 +11,9 @@ function App() {
         <Navbarstrip />
       </nav>
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </div>
   );
