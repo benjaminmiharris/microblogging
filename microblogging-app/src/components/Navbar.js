@@ -10,10 +10,10 @@ const Navbarstrip = () => {
     <Navbar className="nav-bar-container" variant="light">
       <Container md="8">
         <Nav className="me-auto">
-          <NavLink eventKey={1} to="/">
+          <NavLink to="/">
             <li>Home</li>
           </NavLink>
-          <NavLink eventKey={2} to="/profile">
+          <NavLink to="/profile">
             <li>Profile</li>
           </NavLink>
         </Nav>
