@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 
 import CreateTweet from "../components/CreateTweet";
 import Container from "react-bootstrap/Container";
@@ -13,9 +13,8 @@ import { REFRESHRATE } from "../constants";
 import "../style/home.css";
 
 const Home = () => {
-  const { tweetsArray, setTweetsArray } = useContext(TweetlistContext);
-
-  const [isLoading, setIsLoading] = useState(false);
+  const { tweetsArray, setTweetsArray, isLoading, setIsLoading } =
+    useContext(TweetlistContext);
 
   const getTweets = async () => {
     setIsLoading(true);
