@@ -25,13 +25,13 @@ const Home = () => {
   };
 
   useEffect(() => {
-    renderTweets();
-  }, [tweetsArray]);
-
-  useEffect(() => {
     getTweets();
     setInterval(getTweets, REFRESHRATE);
   }, []);
+
+  useEffect(() => {
+    renderTweets();
+  }, [tweetsArray]);
 
   const renderTweets = () => {
     const sortedTweets = sort(tweetsArray).desc((u) => u.date);
