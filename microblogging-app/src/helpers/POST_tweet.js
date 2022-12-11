@@ -9,8 +9,8 @@ export async function postTweet(tweetObject) {
     body: JSON.stringify(tweetObject),
   });
   if (response.ok) {
-    let ret = await response.json();
-    return ret;
+    let result = await response.json();
+    return result;
   } else {
     return `HTTP error: ${response.status}`;
   }

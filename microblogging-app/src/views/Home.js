@@ -1,11 +1,11 @@
 import { useContext, useEffect } from "react";
 
-import CreateTweet from "../components/CreateTweet";
 import Container from "react-bootstrap/Container";
-
-import Tweet from "../components/Tweet";
-import { sort } from "fast-sort";
 import HashLoader from "react-spinners/HashLoader";
+import { sort } from "fast-sort";
+
+import CreateTweet from "../components/CreateTweet";
+import Tweet from "../components/Tweet";
 import { getFromApi } from "../helpers/GET_tweet";
 import { TweetlistContext } from "../context/TweetlistContext";
 import { REFRESHRATE } from "../constants";

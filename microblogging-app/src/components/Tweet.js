@@ -1,7 +1,7 @@
-import "../style/tweet.css";
-
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+
+import "../style/tweet.css";
 
 const Tweet = ({ tweet }) => {
   return (
