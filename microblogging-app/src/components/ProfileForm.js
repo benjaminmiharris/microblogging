@@ -10,9 +10,9 @@ import { UsernameContext } from "../context/UsernameContext";
 import "../style/profile-form.css";
 
 const ProfileForm = () => {
-  const { username, setUsername } = useContext(UsernameContext);
+  const { username, setUsername, usernameError } = useContext(UsernameContext);
 
-  const [usernameInput, setUsernameInput] = useState();
+  const [usernameInput, setUsernameInput] = useState("");
 
   const saveUsername = () => {
     setUsername(usernameInput);
@@ -45,6 +45,12 @@ const ProfileForm = () => {
           >
             Save
           </Button>
+          <br />
+          {!usernameInput ? (
+            <p className="username-error">{usernameError}</p>
+          ) : (
+            ""
+          )}
         </Col>
       </Row>
     </div>
