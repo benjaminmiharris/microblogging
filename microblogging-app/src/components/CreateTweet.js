@@ -1,22 +1,18 @@
-import "../style/create-tweet.css";
-
-import { MAX_TWITTER_LENGTH } from "../constants";
-
-import { postTweet } from "../helpers/POST_tweet";
+import { useState, useContext } from "react";
 
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
-
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { useContext } from "react";
-
+import { postTweet } from "../helpers/POST_tweet";
+import { MAX_TWITTER_LENGTH } from "../constants";
 import { UsernameContext } from "../context/UsernameContext";
 import { TweetlistContext } from "../context/TweetlistContext";
-import { useState } from "react";
+
+import "../style/create-tweet.css";
 
 const CreateTweet = () => {
   const { username } = useContext(UsernameContext);
@@ -43,10 +39,6 @@ const CreateTweet = () => {
     setTweetsArray([...tweetsArray, tweetObject]);
   };
 
-  //update an array of tweets and store locally
-  //render this array
-  //auto setinterval server call
-
   return (
     <Row className="justify-content-center">
       <Col className="create-tweet-container" md="6">
@@ -60,7 +52,20 @@ const CreateTweet = () => {
           />
         </InputGroup>
 
-        {tweetCharCount >= MAX_TWITTER_LENGTH ? (
+        {tweetCharCount <= MAX_TWITTER_LENGTH ? (
+          <Button
+            disabled={isLoading}
+            className="create-tweet-button "
+            variant="primary"
+            type="submit"
+            onClick={(e) => {
+              e.preventDefault();
+              sendTweetMessage();
+            }}
+          >
+            Tweet
+          </Button>
+        ) : (
           <>
             <Alert className="tweet-char-alert" variant="danger">
               The tweet can't contain more then 140 chars.
@@ -74,19 +79,6 @@ const CreateTweet = () => {
               Tweet
             </Button>
           </>
-        ) : (
-          <Button
-            disabled={isLoading}
-            className="create-tweet-button "
-            variant="primary"
-            type="submit"
-            onClick={(e) => {
-              e.preventDefault();
-              sendTweetMessage();
-            }}
-          >
-            Tweet
-          </Button>
         )}
       </Col>
     </Row>

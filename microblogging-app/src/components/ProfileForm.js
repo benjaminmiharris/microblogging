@@ -1,16 +1,18 @@
+import { useContext, useState } from "react";
+
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-import "../style/profile-form.css";
-import { useContext, useState } from "react";
 import { UsernameContext } from "../context/UsernameContext";
 
-const ProfileForm = () => {
-  const { username, setUsername } = useContext(UsernameContext);
+import "../style/profile-form.css";
 
-  const [usernameInput, setUsernameInput] = useState();
+const ProfileForm = () => {
+  const { username, setUsername, usernameError } = useContext(UsernameContext);
+
+  const [usernameInput, setUsernameInput] = useState("");
 
   const saveUsername = () => {
     setUsername(usernameInput);
@@ -43,6 +45,12 @@ const ProfileForm = () => {
           >
             Save
           </Button>
+          <br />
+          {!usernameInput ? (
+            <p className="username-error">{usernameError}</p>
+          ) : (
+            ""
+          )}
         </Col>
       </Row>
     </div>

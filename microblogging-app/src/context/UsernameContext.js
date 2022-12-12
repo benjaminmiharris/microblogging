@@ -5,13 +5,15 @@ const UsernameContext = createContext();
 
 const UsernameContextProvider = ({ children }) => {
   const [username, setUsername] = useState();
+  const [usernameError, setUsernameError] = useState("");
 
   const getFromForage = async () => {
     const result = await localforage.getItem("current_user");
     if (result) {
+      setUsernameError("");
       setUsername(result);
     } else {
-      console.log("Username Context: No username yet");
+      setUsernameError("Please provide a username to get started");
     }
   };
 
@@ -24,7 +26,7 @@ const UsernameContextProvider = ({ children }) => {
   }, [username]);
 
   return (
-    <UsernameContext.Provider value={{ username, setUsername }}>
+    <UsernameContext.Provider value={{ username, setUsername, usernameError }}>
       {children}
     </UsernameContext.Provider>
   );

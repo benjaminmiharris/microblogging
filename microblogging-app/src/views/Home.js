@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
+
+import Container from "react-bootstrap/Container";
+import HashLoader from "react-spinners/HashLoader";
+import { sort } from "fast-sort";
 
 import CreateTweet from "../components/CreateTweet";
-import Container from "react-bootstrap/Container";
-
 import Tweet from "../components/Tweet";
-import { sort } from "fast-sort";
-import HashLoader from "react-spinners/HashLoader";
 import { getFromApi } from "../helpers/GET_tweet";
 import { TweetlistContext } from "../context/TweetlistContext";
 import { REFRESHRATE } from "../constants";
@@ -13,9 +13,8 @@ import { REFRESHRATE } from "../constants";
 import "../style/home.css";
 
 const Home = () => {
-  const { tweetsArray, setTweetsArray } = useContext(TweetlistContext);
-
-  const [isLoading, setIsLoading] = useState(false);
+  const { tweetsArray, setTweetsArray, isLoading, setIsLoading } =
+    useContext(TweetlistContext);
 
   const getTweets = async () => {
     setIsLoading(true);
@@ -25,13 +24,13 @@ const Home = () => {
   };
 
   useEffect(() => {
-    renderTweets();
-  }, [tweetsArray]);
-
-  useEffect(() => {
     getTweets();
     setInterval(getTweets, REFRESHRATE);
   }, []);
+
+  useEffect(() => {
+    renderTweets();
+  }, [tweetsArray]);
 
   const renderTweets = () => {
     const sortedTweets = sort(tweetsArray).desc((u) => u.date);
