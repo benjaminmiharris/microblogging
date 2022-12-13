@@ -8,7 +8,7 @@ import CreateTweet from "../components/CreateTweet";
 import Tweet from "../components/Tweet";
 import { getFromApi } from "../helpers/GET_tweet";
 import { TweetlistContext } from "../context/TweetlistContext";
-import { REFRESHRATE } from "../constants";
+import { REFRESH_RATE } from "../constants";
 
 import "../style/home.css";
 
@@ -25,7 +25,7 @@ const Home = () => {
 
   useEffect(() => {
     getTweets();
-    setInterval(getTweets, REFRESHRATE);
+    setInterval(getTweets, REFRESH_RATE);
   }, []);
 
   useEffect(() => {

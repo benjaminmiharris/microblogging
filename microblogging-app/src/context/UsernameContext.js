@@ -6,6 +6,12 @@ const UsernameContext = createContext();
 const UsernameContextProvider = ({ children }) => {
   const [username, setUsername] = useState();
   const [usernameError, setUsernameError] = useState("");
+  const [isAuth, setIsAuth] = useState(false);
+
+  const getUserStateFromForage = async () => {
+    const userAuthState = await localforage.getItem("isAuth");
+    setIsAuth(userAuthState);
+  };
 
   const getFromForage = async () => {
     const result = await localforage.getItem("current_user");
@@ -18,6 +24,7 @@ const UsernameContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    getUserStateFromForage();
     getFromForage();
   }, []);
 
@@ -26,7 +33,9 @@ const UsernameContextProvider = ({ children }) => {
   }, [username]);
 
   return (
-    <UsernameContext.Provider value={{ username, setUsername, usernameError }}>
+    <UsernameContext.Provider
+      value={{ username, setUsername, usernameError, isAuth, setIsAuth }}
+    >
       {children}
     </UsernameContext.Provider>
   );

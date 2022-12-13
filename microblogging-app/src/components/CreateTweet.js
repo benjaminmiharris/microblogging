@@ -7,8 +7,8 @@ import Alert from "react-bootstrap/Alert";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { postTweet } from "../helpers/POST_tweet";
-import { MAX_TWITTER_LENGTH } from "../constants";
+import { postTweet } from "../helpers/GET_tweet";
+import { MAX_TWEET_LENGTH } from "../constants";
 import { UsernameContext } from "../context/UsernameContext";
 import { TweetlistContext } from "../context/TweetlistContext";
 
@@ -52,7 +52,7 @@ const CreateTweet = () => {
           />
         </InputGroup>
 
-        {tweetCharCount <= MAX_TWITTER_LENGTH ? (
+        {tweetCharCount <= MAX_TWEET_LENGTH ? (
           <Button
             disabled={isLoading}
             className="create-tweet-button "
