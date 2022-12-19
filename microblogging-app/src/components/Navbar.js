@@ -23,12 +23,16 @@ const Navbarstrip = () => {
     <Navbar className="nav-bar-container" variant="light">
       <Container md="8">
         <Nav className="me-auto">
-          <NavLink to="/">
-            <li>Home</li>
-          </NavLink>
-          <NavLink to="/profile">
-            <li>Profile</li>
-          </NavLink>
+          {isAuth && (
+            <>
+              <NavLink to="/">
+                <li>Home</li>
+              </NavLink>
+              <NavLink to="/profile">
+                <li>Profile</li>
+              </NavLink>
+            </>
+          )}
           <NavLink to="/login">
             {!isAuth ? (
               <li className="login-button">Login </li>

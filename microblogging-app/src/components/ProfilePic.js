@@ -7,14 +7,15 @@ import { UsernameContext } from "../context/UsernameContext";
 import { avatar } from "../constants";
 import Button from "react-bootstrap/Button";
 import "../style/profile-form.css";
-import { storage, auth } from "../firebase-config";
+import { storage } from "../firebase-config";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const ProfilePic = () => {
   const { user } = useContext(UsernameContext);
-
   const [imageUpload, setImageUpload] = useState(null);
   const [url, setUrl] = useState(avatar);
+
+  useEffect(() => {}, []);
 
   const uploadImage = () => {
     if (imageUpload == null) return;
@@ -48,22 +49,29 @@ const ProfilePic = () => {
       .catch((error) => {
         console.log(error);
       });
-    console.log("Post", auth.currentUser);
   };
 
   return (
     <div style={{ color: "white" }}>
       <div className="profile-pic-container">
-        <img className="profile-pic" src={user.photoURL} alt="profile-pic" />
-        <br />
-        <input
-          type="file"
-          onChange={(e) => {
-            setImageUpload(e.target.files[0]);
-          }}
+        <img
+          className="profile-pic"
+          src={user.photoURL ? user.photoURL : url}
+          alt="profile-pic"
         />
         <br />
-        <Button onClick={uploadImage}>Upload</Button>
+        <div className="pic-upload-buttons-container">
+          <input
+            className="pic-uploader"
+            type="file"
+            onChange={(e) => {
+              setImageUpload(e.target.files[0]);
+            }}
+          />
+          <Button className="pic-submit-button" onClick={uploadImage}>
+            Upload
+          </Button>
+        </div>
       </div>
     </div>
   );

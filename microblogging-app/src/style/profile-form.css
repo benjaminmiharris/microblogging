@@ -1,7 +1,12 @@
 .profile-title {
-  position: relative;
+  text-align: center;
   color: white;
-  margin-top: 80px;
+  margin-top: 30px;
+}
+
+.user-displayname-container {
+  position: relative;
+  top: 30px;
 }
 
 .profile-form-label {
@@ -12,11 +17,6 @@
   text-align: left;
   color: rgba(255, 255, 255, 0.8);
   margin-top: 26px;
-}
-
-.profile-form {
-  position: relative;
-  left: 8%;
 }
 
 .form-control.profile-username-input {
@@ -36,12 +36,23 @@
 }
 
 .profile-pic-container {
+  text-align: center;
   position: relative;
-  left: 50%;
-  margin-top: 25px;
+  top: 30px;
 }
 
 .profile-pic {
   border-radius: 50%;
-  height: 100px;
+  height: 120px;
+}
+
+.pic-submit-button,
+.pic-uploader {
+  margin-top: 20px;
+}
+
+.pic-upload-buttons-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }

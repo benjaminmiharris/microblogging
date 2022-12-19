@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -12,8 +12,7 @@ import "../style/profile-form.css";
 import ProfilePic from "./ProfilePic";
 
 const ProfileForm = () => {
-  const { username, setUsername, usernameError, user } =
-    useContext(UsernameContext);
+  const { setUsername, usernameError, user } = useContext(UsernameContext);
 
   const [profilenameInput, setProfilenameInput] = useState("");
 
@@ -38,16 +37,21 @@ const ProfileForm = () => {
   return (
     <div>
       <Row className="justify-content-center">
-        <Col>
-          <ProfilePic />
-        </Col>
-        <Col md="7">
+        <Col md="5">
           <h1 className="profile-title">Welcome {user.displayName}</h1>
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col md="5">
+          <ProfilePic />
         </Col>
       </Row>
       <Row className="justify-content-center " md="4">
         <Col className="profile-form" md="4">
-          <Form.Group controlId="formBasicEmail">
+          <Form.Group
+            className="user-displayname-container"
+            controlId="formBasicEmail"
+          >
             <Form.Label className="profile-form-label">Display Name</Form.Label>
             <Form.Control
               defaultValue={user.displayName}
@@ -56,15 +60,16 @@ const ProfileForm = () => {
               placeholder="Enter profile"
               onChange={(e) => setProfilenameInput(e.target.value)}
             />
+            <Button
+              className="profile-save-button"
+              variant="primary"
+              type="submit"
+              onClick={saveUsername}
+            >
+              Save
+            </Button>
           </Form.Group>
-          <Button
-            className="profile-save-button"
-            variant="primary"
-            type="submit"
-            onClick={saveUsername}
-          >
-            Save
-          </Button>
+
           <br />
           {!profilenameInput ? (
             <p className="username-error">{usernameError}</p>

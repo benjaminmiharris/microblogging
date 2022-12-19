@@ -19,6 +19,7 @@ li,
 .login-button {
   position: absolute;
   right: 40px;
+  top: 30%;
 }
 
 .logout-button {

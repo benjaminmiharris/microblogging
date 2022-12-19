@@ -5,9 +5,11 @@ import Login from "./views/Login";
 
 import Navbarstrip from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import FirebaseTweets from "./views/FirebaseTweets";
+import { useContext } from "react";
+import { UsernameContext } from "./context/UsernameContext";
 
 function App() {
+  const { isAuth } = useContext(UsernameContext);
   return (
     <Router>
       <div className="App">
@@ -15,10 +17,13 @@ function App() {
           <Navbarstrip />
         </nav>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
+          {isAuth && (
+            <>
+              <Route path="/" element={<Home />} />
+              <Route path="/profile" element={<Profile />} />
+            </>
+          )}
           <Route path="/login" element={<Login />} />
-          <Route path="/firebase" element={<FirebaseTweets />} />
           <Route path="*" element={<Error />} />
         </Routes>
       </div>

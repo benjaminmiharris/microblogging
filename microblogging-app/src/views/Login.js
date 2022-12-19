@@ -5,24 +5,20 @@ import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { auth, db, provider } from "../firebase-config.js";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-
-import localforage from "localforage";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 
 import "../style/login.css";
 import { useContext } from "react";
 import { UsernameContext } from "../context/UsernameContext.js";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
 
 const Login = () => {
-  const { setIsAuth, user, setUser } = useContext(UsernameContext);
+  const { setIsAuth, user } = useContext(UsernameContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  console.log("user help", user);
 
   const userNameHandler = (e) => {
     setUsername(e.target.value);
@@ -32,15 +28,10 @@ const Login = () => {
 
   const createUser = async () => {
     try {
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        username,
-        password
-      );
-      navigateHome("/");
+      await createUserWithEmailAndPassword(auth, username, password);
+      setIsAuth(true);
 
-      console.log("user", user);
-      console.log("auth", auth);
+      navigateHome("/");
     } catch (error) {
       console.log(error.message);
     }
@@ -48,25 +39,31 @@ const Login = () => {
 
   const login = async () => {
     try {
-      const user = await signInWithEmailAndPassword(auth, username, password);
-      console.log(user);
+      await signInWithEmailAndPassword(auth, username, password);
+      setIsAuth(true);
+
       navigateHome("/");
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  const signInWithGoogle = () => {
-    signInWithPopup(auth, provider).then((result) => {
+  const signInWithGoogle = async () => {
+    try {
+      await signInWithPopup(auth, provider);
+      setIsAuth(true);
+
       navigateHome("/");
-    });
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   return (
     <div>
       <Row className="justify-content-center " md="6">
-        <Col className="profile-form" md="5">
+        <Col className="profile-form" md="6">
           {user?.email ? (
-            <h2 className="google-signin">
+            <h2 className="user-signedin">
               {user?.displayName}, you are currently logged in!
             </h2>
           ) : (
@@ -90,11 +87,15 @@ const Login = () => {
                   }}
                 />
                 <br />
-                <Button onClick={createUser}>Create User</Button>
-                <Button className="signin-button" onClick={login}>
-                  Sign-in
-                </Button>
-                <Button onClick={signInWithGoogle}>Sign in with Google</Button>
+                <div>
+                  <Button onClick={createUser}>Create User</Button>
+                  <Button className="signin-button" onClick={login}>
+                    Sign-in
+                  </Button>
+                  <Button onClick={signInWithGoogle}>
+                    Sign in with Google
+                  </Button>
+                </div>
                 <br />
                 <br />
               </Form.Group>

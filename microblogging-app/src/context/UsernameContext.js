@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase-config.js";
+import { onAuthStateChanged } from "firebase/auth";
 
 import localforage from "localforage";
 
@@ -21,16 +22,14 @@ const UsernameContextProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    user?.email
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    console.log("user", user);
+    isAuth
       ? localforage.setItem("isAuth", true)
       : localforage.setItem("isAuth", false);
-  }, [user]);
-
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      setUser(user);
-    });
-  }, [user]);
+  }, [isAuth]);
 
   return (
     <UsernameContext.Provider

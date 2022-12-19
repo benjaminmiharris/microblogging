@@ -10,7 +10,6 @@ import Alert from "react-bootstrap/Alert";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { postTweet } from "../helpers/GET_tweet";
 import { MAX_TWEET_LENGTH } from "../constants";
 import { UsernameContext } from "../context/UsernameContext";
 import { TweetlistContext } from "../context/TweetlistContext";
@@ -19,28 +18,14 @@ import "../style/create-tweet.css";
 
 const CreateTweet = () => {
   const { user } = useContext(UsernameContext);
-  const { tweetsArray, setTweetsArray, isLoading } =
-    useContext(TweetlistContext);
+  const { isLoading } = useContext(TweetlistContext);
 
   const [tweet, setTweet] = useState();
-
   const [tweetCharCount, setTweetCarCount] = useState(0);
 
   const tweetMessageHandler = (e) => {
     setTweet(e.target.value);
     setTweetCarCount(e.target.value.length);
-  };
-
-  const sendTweetMessage = () => {
-    const tweetObject = {
-      content: tweet,
-      userName: user.displayName,
-      date: new Date().toISOString(),
-    };
-    postTweet(tweetObject);
-    createPost();
-    setTweet("");
-    setTweetsArray([...tweetsArray, tweetObject]);
   };
 
   //creating posts and saving in firebase database
@@ -77,7 +62,7 @@ const CreateTweet = () => {
             type="submit"
             onClick={(e) => {
               e.preventDefault();
-              sendTweetMessage();
+              createPost();
             }}
           >
             Tweet
