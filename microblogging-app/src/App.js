@@ -5,6 +5,7 @@ import Login from "./views/Login";
 
 import Navbarstrip from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import FirebaseTweets from "./views/FirebaseTweets";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />
-
+          <Route path="/firebase" element={<FirebaseTweets />} />
           <Route path="*" element={<Error />} />
         </Routes>
       </div>

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import Container from "react-bootstrap/Container";
 import HashLoader from "react-spinners/HashLoader";
@@ -6,9 +6,12 @@ import { sort } from "fast-sort";
 
 import CreateTweet from "../components/CreateTweet";
 import Tweet from "../components/Tweet";
-import { getFromApi } from "../helpers/GET_tweet";
 import { TweetlistContext } from "../context/TweetlistContext";
 import { REFRESH_RATE } from "../constants";
+import { doc, onSnapshot } from "firebase/firestore";
+
+import { getDocs, collection } from "firebase/firestore";
+import { db } from "../firebase-config";
 
 import "../style/home.css";
 
@@ -16,27 +19,29 @@ const Home = () => {
   const { tweetsArray, setTweetsArray, isLoading, setIsLoading } =
     useContext(TweetlistContext);
 
-  const getTweets = async () => {
-    setIsLoading(true);
-    const serverTweets = await getFromApi();
-    setIsLoading(false);
-    return setTweetsArray(serverTweets);
+  const [postLists, setPostLists] = useState([]);
+  const postsCollectionRef = collection(db, "posts");
+
+  const getPostsFirestoreRealtime = async () => {
+    onSnapshot(postsCollectionRef, (snapshot) => {
+      setPostLists(
+        snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }))
+      );
+    });
   };
 
   useEffect(() => {
-    getTweets();
-    setInterval(getTweets, REFRESH_RATE);
+    getPostsFirestoreRealtime();
   }, []);
 
-  useEffect(() => {
-    renderTweets();
-  }, [tweetsArray]);
-
   const renderTweets = () => {
-    const sortedTweets = sort(tweetsArray).desc((u) => u.date);
+    const sortedTweets = sort(postLists).desc((u) => u.createdOn);
 
     return sortedTweets.map((tweet) => {
-      return <Tweet key={tweet.date} tweet={tweet} />;
+      return <Tweet key={tweet.id} tweet={tweet} />;
     });
   };
 

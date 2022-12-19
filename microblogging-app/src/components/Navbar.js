@@ -7,6 +7,7 @@ import "../style/nav-bar.css";
 import { UsernameContext } from "../context/UsernameContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase-config";
+import Button from "react-bootstrap/Button";
 
 const Navbarstrip = () => {
   const { isAuth, setIsAuth } = useContext(UsernameContext);
@@ -32,9 +33,9 @@ const Navbarstrip = () => {
             {!isAuth ? (
               <li className="login-button">Login </li>
             ) : (
-              <li className="login-button" onClick={signUserOut}>
-                Logout
-              </li>
+              <Button className="logout-button" onClick={signUserOut}>
+                Sign-out
+              </Button>
             )}
           </NavLink>
         </Nav>

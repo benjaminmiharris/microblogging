@@ -4,12 +4,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { auth, provider } from "../firebase-config.js";
-import {
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  signOut,
-} from "firebase/auth";
+import { auth, db, provider } from "../firebase-config.js";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 
 import localforage from "localforage";
 
@@ -22,15 +18,15 @@ import {
 } from "firebase/auth";
 
 const Login = () => {
-  const { setIsAuth } = useContext(UsernameContext);
+  const { setIsAuth, user, setUser } = useContext(UsernameContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [user, setUser] = useState({});
+  console.log("user help", user);
 
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
+  const userNameHandler = (e) => {
+    setUsername(e.target.value);
+  };
 
   const navigateHome = useNavigate();
 
@@ -41,7 +37,10 @@ const Login = () => {
         username,
         password
       );
-      console.log(user);
+      navigateHome("/");
+
+      console.log("user", user);
+      console.log("auth", auth);
     } catch (error) {
       console.log(error.message);
     }
@@ -51,18 +50,14 @@ const Login = () => {
     try {
       const user = await signInWithEmailAndPassword(auth, username, password);
       console.log(user);
+      navigateHome("/");
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  const logout = async () => {
-    await signOut(auth);
-  };
-
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider).then((result) => {
-      localforage.setItem("isAuth", true);
       navigateHome("/");
     });
   };
@@ -70,38 +65,41 @@ const Login = () => {
     <div>
       <Row className="justify-content-center " md="6">
         <Col className="profile-form" md="5">
-          <h2 className="google-signin">Get Started</h2>
-          <p style={{ color: "white" }}>
-            Testing to show current user: {user?.email}
-          </p>
-
-          <Form.Group>
-            <Form.Label className="profile-form-label">Username</Form.Label>
-            <Form.Control
-              className="profile-username-input"
-              type="text"
-              placeholder="Enter username"
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
-            />
-            <Form.Label className="profile-form-label">Password</Form.Label>
-            <Form.Control
-              className="profile-username-input"
-              type="password"
-              placeholder="Enter password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-            <br />
-            <Button onClick={createUser}>Create User</Button>
-            <Button className="signin-button" onClick={login}>
-              Sign-in
-            </Button>
-            <Button onClick={signInWithGoogle}>Sign in with Google</Button>
-            <Button onClick={logout}>Sign-out</Button>
-          </Form.Group>
+          {user?.email ? (
+            <h2 className="google-signin">
+              {user?.displayName}, you are currently logged in!
+            </h2>
+          ) : (
+            <div>
+              <h2 className="google-signin">Get Started</h2>
+              <Form.Group>
+                <Form.Label className="profile-form-label">Username</Form.Label>
+                <Form.Control
+                  className="profile-username-input"
+                  type="text"
+                  placeholder="Enter username"
+                  onChange={userNameHandler}
+                />
+                <Form.Label className="profile-form-label">Password</Form.Label>
+                <Form.Control
+                  className="profile-username-input"
+                  type="password"
+                  placeholder="Enter password"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+                <br />
+                <Button onClick={createUser}>Create User</Button>
+                <Button className="signin-button" onClick={login}>
+                  Sign-in
+                </Button>
+                <Button onClick={signInWithGoogle}>Sign in with Google</Button>
+                <br />
+                <br />
+              </Form.Group>
+            </div>
+          )}
         </Col>
       </Row>
     </div>

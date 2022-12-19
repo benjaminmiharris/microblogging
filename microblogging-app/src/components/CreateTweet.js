@@ -1,4 +1,7 @@
 import { useState, useContext } from "react";
+import { addDoc, collection } from "firebase/firestore";
+
+import { db, auth } from "../firebase-config";
 
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -15,7 +18,7 @@ import { TweetlistContext } from "../context/TweetlistContext";
 import "../style/create-tweet.css";
 
 const CreateTweet = () => {
-  const { username } = useContext(UsernameContext);
+  const { user } = useContext(UsernameContext);
   const { tweetsArray, setTweetsArray, isLoading } =
     useContext(TweetlistContext);
 
@@ -31,12 +34,26 @@ const CreateTweet = () => {
   const sendTweetMessage = () => {
     const tweetObject = {
       content: tweet,
-      userName: username,
+      userName: user.displayName,
       date: new Date().toISOString(),
     };
     postTweet(tweetObject);
+    createPost();
     setTweet("");
     setTweetsArray([...tweetsArray, tweetObject]);
+  };
+
+  //creating posts and saving in firebase database
+
+  const postsCollectionRef = collection(db, "posts");
+
+  const createPost = async () => {
+    await addDoc(postsCollectionRef, {
+      tweet,
+      userName: user.displayName,
+      author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
+      createdOn: new Date().toISOString(),
+    });
   };
 
   return (

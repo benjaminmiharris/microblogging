@@ -8,11 +8,10 @@ const Tweet = ({ tweet }) => {
     <Row className="justify-content-center text-center">
       <Col className="tweet-card" md="6">
         <div className="tweet-header d-flex justify-content-between">
-          <p>{tweet.userName}</p>
-          <p>{tweet.date}</p>
+          <p>@{tweet.author.name}</p>
+          <p>{tweet.createdOn}</p>
         </div>
-
-        <p className="tweet-message">{tweet.content}</p>
+        <p className="tweet-message">{tweet.tweet}</p>
       </Col>
     </Row>
   );

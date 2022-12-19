@@ -1,40 +1,60 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { getAuth, updateProfile } from "firebase/auth";
 
 import { UsernameContext } from "../context/UsernameContext";
 
 import "../style/profile-form.css";
+import ProfilePic from "./ProfilePic";
 
 const ProfileForm = () => {
-  const { username, setUsername, usernameError } = useContext(UsernameContext);
+  const { username, setUsername, usernameError, user } =
+    useContext(UsernameContext);
 
-  const [usernameInput, setUsernameInput] = useState("");
+  const [profilenameInput, setProfilenameInput] = useState("");
 
   const saveUsername = () => {
-    setUsername(usernameInput);
+    setUsername(profilenameInput);
+    setFirebaseDisplayName();
+  };
+
+  const setFirebaseDisplayName = () => {
+    const auth = getAuth();
+    updateProfile(auth.currentUser, {
+      displayName: profilenameInput,
+    })
+      .then(() => {
+        console.log("pic updated");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
     <div>
       <Row className="justify-content-center">
-        <Col md="6">
-          <h1 className="profile-title">Profile</h1>
+        <Col>
+          <ProfilePic />
+        </Col>
+        <Col md="7">
+          <h1 className="profile-title">Welcome {user.displayName}</h1>
         </Col>
       </Row>
-      <Row className="justify-content-center " md="6">
-        <Col className="profile-form" md="6">
+      <Row className="justify-content-center " md="4">
+        <Col className="profile-form" md="4">
           <Form.Group controlId="formBasicEmail">
-            <Form.Label className="profile-form-label">User Name</Form.Label>
+            <Form.Label className="profile-form-label">Display Name</Form.Label>
             <Form.Control
-              defaultValue={username}
+              defaultValue={user.displayName}
               className="profile-username-input"
               type="text"
               placeholder="Enter profile"
-              onChange={(e) => setUsernameInput(e.target.value)}
+              onChange={(e) => setProfilenameInput(e.target.value)}
             />
           </Form.Group>
           <Button
@@ -46,7 +66,7 @@ const ProfileForm = () => {
             Save
           </Button>
           <br />
-          {!usernameInput ? (
+          {!profilenameInput ? (
             <p className="username-error">{usernameError}</p>
           ) : (
             ""
