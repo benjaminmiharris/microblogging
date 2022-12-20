@@ -33,12 +33,24 @@ const CreateTweet = () => {
   const postsCollectionRef = collection(db, "posts");
 
   const createPost = async () => {
-    await addDoc(postsCollectionRef, {
-      tweet,
-      userName: user.displayName,
-      author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
-      createdOn: new Date().toISOString(),
-    });
+    user.displayName &&
+      (await addDoc(postsCollectionRef, {
+        tweet,
+        userName: user.displayName,
+        author: {
+          name: auth.currentUser.displayName,
+          id: auth.currentUser.uid,
+        },
+        createdOn: new Date().toISOString(),
+      }));
+  };
+
+  const displayNameValidationRender = () => {
+    return (
+      <Alert className="tweet-char-alert" variant="danger">
+        Add a display name in the profile to tweet!
+      </Alert>
+    );
   };
 
   return (
@@ -82,6 +94,7 @@ const CreateTweet = () => {
             </Button>
           </>
         )}
+        {!user.displayName && displayNameValidationRender()}
       </Col>
     </Row>
   );
