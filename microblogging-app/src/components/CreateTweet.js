@@ -1,4 +1,7 @@
 import { useState, useContext } from "react";
+import { addDoc, collection } from "firebase/firestore";
+
+import { db, auth } from "../firebase-config";
 
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -7,20 +10,17 @@ import Alert from "react-bootstrap/Alert";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { postTweet } from "../helpers/POST_tweet";
-import { MAX_TWITTER_LENGTH } from "../constants";
+import { MAX_TWEET_LENGTH } from "../constants";
 import { UsernameContext } from "../context/UsernameContext";
 import { TweetlistContext } from "../context/TweetlistContext";
 
 import "../style/create-tweet.css";
 
 const CreateTweet = () => {
-  const { username } = useContext(UsernameContext);
-  const { tweetsArray, setTweetsArray, isLoading } =
-    useContext(TweetlistContext);
+  const { user } = useContext(UsernameContext);
+  const { isLoading } = useContext(TweetlistContext);
 
   const [tweet, setTweet] = useState();
-
   const [tweetCharCount, setTweetCarCount] = useState(0);
 
   const tweetMessageHandler = (e) => {
@@ -28,15 +28,17 @@ const CreateTweet = () => {
     setTweetCarCount(e.target.value.length);
   };
 
-  const sendTweetMessage = () => {
-    const tweetObject = {
-      content: tweet,
-      userName: username,
-      date: new Date().toISOString(),
-    };
-    postTweet(tweetObject);
-    setTweet("");
-    setTweetsArray([...tweetsArray, tweetObject]);
+  //creating posts and saving in firebase database
+
+  const postsCollectionRef = collection(db, "posts");
+
+  const createPost = async () => {
+    await addDoc(postsCollectionRef, {
+      tweet,
+      userName: user.displayName,
+      author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
+      createdOn: new Date().toISOString(),
+    });
   };
 
   return (
@@ -52,7 +54,7 @@ const CreateTweet = () => {
           />
         </InputGroup>
 
-        {tweetCharCount <= MAX_TWITTER_LENGTH ? (
+        {tweetCharCount <= MAX_TWEET_LENGTH ? (
           <Button
             disabled={isLoading}
             className="create-tweet-button "
@@ -60,7 +62,7 @@ const CreateTweet = () => {
             type="submit"
             onClick={(e) => {
               e.preventDefault();
-              sendTweetMessage();
+              createPost();
             }}
           >
             Tweet

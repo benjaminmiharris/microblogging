@@ -15,3 +15,15 @@ li,
 .under {
   text-decoration: underline rgba(52, 58, 64, 1);
 }
+
+.login-button {
+  position: absolute;
+  right: 40px;
+  top: 30%;
+}
+
+.logout-button {
+  position: absolute;
+  right: 40px;
+  top: 10px;
+}
