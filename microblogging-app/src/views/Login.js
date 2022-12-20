@@ -16,7 +16,7 @@ import { useContext } from "react";
 import { UsernameContext } from "../context/UsernameContext.js";
 
 const Login = () => {
-  const { setIsAuth, user } = useContext(UsernameContext);
+  const { setIsAuth, user, isAuth } = useContext(UsernameContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -62,7 +62,7 @@ const Login = () => {
     <div>
       <Row className="justify-content-center " md="6">
         <Col className="profile-form" md="6">
-          {user?.email ? (
+          {isAuth ? (
             <h2 className="user-signedin">
               {user?.displayName}, you are currently logged in!
             </h2>
