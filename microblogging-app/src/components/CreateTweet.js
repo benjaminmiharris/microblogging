@@ -33,8 +33,10 @@ const CreateTweet = () => {
   const postsCollectionRef = collection(db, "posts");
 
   const createPost = async () => {
-    user.displayName &&
-      (await addDoc(postsCollectionRef, {
+    try {
+      user.displayName && setTweet("");
+
+      await addDoc(postsCollectionRef, {
         tweet,
         userName: user.displayName,
         author: {
@@ -42,7 +44,10 @@ const CreateTweet = () => {
           id: auth.currentUser.uid,
         },
         createdOn: new Date().toISOString(),
-      }));
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const displayNameValidationRender = () => {

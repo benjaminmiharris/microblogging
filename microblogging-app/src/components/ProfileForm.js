@@ -35,17 +35,15 @@ const ProfileForm = () => {
     }
   };
 
-  const setFirebaseDisplayName = () => {
-    const auth = getAuth();
-    updateProfile(auth.currentUser, {
-      displayName: profilenameInput,
-    })
-      .then(() => {
-        console.log("pic updated");
-      })
-      .catch((error) => {
-        console.log(error);
+  const setFirebaseDisplayName = async () => {
+    try {
+      const auth = getAuth();
+      await updateProfile(auth.currentUser, {
+        displayName: profilenameInput,
       });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const displayNameValidationRender = () => {
