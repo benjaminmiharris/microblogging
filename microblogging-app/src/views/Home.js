@@ -19,7 +19,7 @@ const Home = () => {
   const [postLists, setPostLists] = useState([]);
   const postsCollectionRef = collection(db, "posts");
 
-  const getPostsFirestoreRealtime = async () => {
+  const getPostsFirestoreRealtime = () => {
     setIsLoading(true);
     onSnapshot(postsCollectionRef, (snapshot) => {
       setPostLists(
