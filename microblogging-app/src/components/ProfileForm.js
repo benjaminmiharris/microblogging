@@ -5,6 +5,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { getAuth, updateProfile } from "firebase/auth";
+import Alert from "react-bootstrap/Alert";
 
 import { UsernameContext } from "../context/UsernameContext";
 
@@ -12,26 +13,45 @@ import "../style/profile-form.css";
 import ProfilePic from "./ProfilePic";
 
 const ProfileForm = () => {
-  const { setUsername, usernameError, user } = useContext(UsernameContext);
+  const { setUsername, user } = useContext(UsernameContext);
 
   const [profilenameInput, setProfilenameInput] = useState("");
+  const [usernameError, setUsernameError] = useState(false);
 
-  const saveUsername = () => {
-    setUsername(profilenameInput);
-    setFirebaseDisplayName();
+  const displayNameHandler = (e) => {
+    setUsernameError(false);
+    setProfilenameInput(e.target.value);
   };
 
-  const setFirebaseDisplayName = () => {
-    const auth = getAuth();
-    updateProfile(auth.currentUser, {
-      displayName: profilenameInput,
-    })
-      .then(() => {
-        console.log("pic updated");
-      })
-      .catch((error) => {
-        console.log(error);
+  const saveUsername = () => {
+    if (
+      profilenameInput.length > 0 &&
+      profilenameInput.replace(/\s/g, "").length == 0
+    ) {
+      setUsernameError(true);
+    } else {
+      setUsername(profilenameInput);
+      setFirebaseDisplayName();
+    }
+  };
+
+  const setFirebaseDisplayName = async () => {
+    try {
+      const auth = getAuth();
+      await updateProfile(auth.currentUser, {
+        displayName: profilenameInput,
       });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const displayNameValidationRender = () => {
+    return (
+      <Alert className="tweet-char-alert" variant="danger">
+        Display name must contain characters!{" "}
+      </Alert>
+    );
   };
 
   return (
@@ -58,7 +78,7 @@ const ProfileForm = () => {
               className="profile-username-input"
               type="text"
               placeholder="Enter profile"
-              onChange={(e) => setProfilenameInput(e.target.value)}
+              onChange={displayNameHandler}
             />
             <Button
               className="profile-save-button"
@@ -71,11 +91,7 @@ const ProfileForm = () => {
           </Form.Group>
 
           <br />
-          {!profilenameInput ? (
-            <p className="username-error">{usernameError}</p>
-          ) : (
-            ""
-          )}
+          {usernameError && displayNameValidationRender()}
         </Col>
       </Row>
     </div>

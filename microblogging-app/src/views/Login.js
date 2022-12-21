@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { auth, db, provider } from "../firebase-config.js";
+import { auth, provider } from "../firebase-config.js";
 import {
   signInWithEmailAndPassword,
   signInWithPopup,

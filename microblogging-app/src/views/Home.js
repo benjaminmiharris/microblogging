@@ -7,9 +7,8 @@ import { sort } from "fast-sort";
 import CreateTweet from "../components/CreateTweet";
 import Tweet from "../components/Tweet";
 import { TweetlistContext } from "../context/TweetlistContext";
-import { doc, onSnapshot } from "firebase/firestore";
+import { onSnapshot, collection } from "firebase/firestore";
 
-import { getDocs, collection } from "firebase/firestore";
 import { db } from "../firebase-config";
 
 import "../style/home.css";
@@ -20,7 +19,7 @@ const Home = () => {
   const [postLists, setPostLists] = useState([]);
   const postsCollectionRef = collection(db, "posts");
 
-  const getPostsFirestoreRealtime = async () => {
+  const getPostsFirestoreRealtime = () => {
     setIsLoading(true);
     onSnapshot(postsCollectionRef, (snapshot) => {
       setPostLists(
