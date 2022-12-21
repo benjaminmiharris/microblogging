@@ -5,14 +5,19 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { getAuth, updateProfile } from "firebase/auth";
-import Alert from "react-bootstrap/Alert";
 
 import { UsernameContext } from "../context/UsernameContext";
 
 import "../style/profile-form.css";
 import ProfilePic from "./ProfilePic";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const ProfileForm = () => {
+  const notifyDisplayNameError = () =>
+    toast.error(" Display name must contain characters!", { theme: "colored" });
+
   const { setUsername, user } = useContext(UsernameContext);
 
   const [profilenameInput, setProfilenameInput] = useState("");
@@ -46,16 +51,11 @@ const ProfileForm = () => {
     }
   };
 
-  const displayNameValidationRender = () => {
-    return (
-      <Alert className="tweet-char-alert" variant="danger">
-        Display name must contain characters!{" "}
-      </Alert>
-    );
-  };
-
   return (
     <div>
+      <ToastContainer />
+      {usernameError && notifyDisplayNameError()}
+      <br />
       <Row className="justify-content-center">
         <Col md="5">
           <h1 className="profile-title">Welcome {user.displayName}</h1>
@@ -89,9 +89,6 @@ const ProfileForm = () => {
               Save
             </Button>
           </Form.Group>
-
-          <br />
-          {usernameError && displayNameValidationRender()}
         </Col>
       </Row>
     </div>
