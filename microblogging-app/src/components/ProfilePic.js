@@ -1,8 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import uniqid from "uniqid";
 import { getAuth, updateProfile } from "firebase/auth";
 
 import { UsernameContext } from "../context/UsernameContext";
+import { FaCloudUploadAlt } from "react-icons/fa";
 
 import { avatar } from "../constants";
 import Button from "react-bootstrap/Button";
@@ -15,7 +16,9 @@ const ProfilePic = () => {
   const [imageUpload, setImageUpload] = useState(null);
   const [url, setUrl] = useState(avatar);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    uploadImage();
+  }, [imageUpload]);
 
   const uploadImage = () => {
     if (imageUpload == null) return;
@@ -51,26 +54,32 @@ const ProfilePic = () => {
       });
   };
 
+  const inputRef = useRef();
+
+  const handleClick = () => {
+    inputRef.current.click();
+  };
+
   return (
     <div style={{ color: "white" }}>
-      <div className="profile-pic-container">
+      <div className="profile-pic-container" onClick={handleClick}>
         <img
           className="profile-pic"
           src={user.photoURL ? user.photoURL : url}
           alt="profile-pic"
         />
+        <FaCloudUploadAlt className="profile-pic-uploader" size={70} />
+
         <br />
         <div className="pic-upload-buttons-container">
           <input
             className="pic-uploader"
             type="file"
+            ref={inputRef}
             onChange={(e) => {
               setImageUpload(e.target.files[0]);
             }}
           />
-          <Button className="pic-submit-button" onClick={uploadImage}>
-            Upload
-          </Button>
         </div>
       </div>
     </div>
